@@ -9,15 +9,15 @@ def criar_tabela(Banquinho, cursor):
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS clientes (
         id INTEGER PRIMARY KEY,
-        nome TEXT NOT NULL
+        nome TEXT NOT NULL, email TEXT NOT NULL
     );
     ''')
     Banquinho.commit()
 
 # Inserir dado
 def inserir_dado(Banquinho, cursor, nome, id):
-    data = (id, nome)
-    cursor.execute('INSERT INTO clientes (id, nome) VALUES (?, ?);', data)
+    data = (id, 'nome', 'email')
+    cursor.execute('INSERT INTO clientes (id, nome, email) VALUES (?, ?, ?);', data)
     Banquinho.commit()
 
 # Alterar registro
@@ -25,6 +25,7 @@ def alterar_registro(Banquinho, cursor, nome, id):
     data = (nome, id)
     cursor.execute('UPDATE clientes SET nome=? WHERE id=?;', data)
     Banquinho.commit()
+
 
 # Excluir registro
 def excluir_registro(Banquinho, cursor, id):
@@ -35,5 +36,16 @@ def excluir_registro(Banquinho, cursor, id):
 # Chamando as funções para testar
 criar_tabela(Banquinho, cursor)  # Cria a tabela se não existir
 inserir_dado(Banquinho, cursor, "João", 1)  # Insere um cliente
-alterar_registro(Banquinho, cursor, "Maria", 1)  # Altera o nome do cliente
+# alterar_registro(Banquinho, cursor, "Maria", 1)  # Altera o nome do cliente
 excluir_registro(Banquinho, cursor, 1)  # Exclui o cliente
+
+def inserir_muitos(Banquinho, cursor, dados): #Inserimos Vários registros de uma vez
+    cursor.executemany('INSERT INTO clientes (nome,email) VALUES (?, ?)', dados)
+    Banquinho.commit()
+
+dados = [
+    ('kaiki', 'kaikinattansg@gmail.com'),
+    ('josé aldo', 'kllerboy@gmail.com'),
+]
+
+inserir_muitos(Banquinho, cursor, dados)
