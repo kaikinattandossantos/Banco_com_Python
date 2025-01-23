@@ -2,7 +2,7 @@ from flask import Flask
 
 app = Flask(__name__)
 
-@app.route("/", method=["POST"])
+@app.route("/", methods=["POST"])
 def inicial():
     return "Olá Web"
 
